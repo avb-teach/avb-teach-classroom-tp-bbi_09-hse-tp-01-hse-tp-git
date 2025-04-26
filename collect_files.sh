@@ -24,9 +24,6 @@ if [ ! -d "$OUTPUT_DIR" ]; then
     echo "Создана выходная директория: $OUTPUT_DIR"
 fi
 
-files_count=0
-errors_count=0
-
 get_unique_filename() {
     local base_filename="$1"
     local output_dir="$2"
@@ -65,10 +62,8 @@ process_file() {
         if [ "$unique_filename" != "$base_filename" ]; then
             echo "Файл '$file' скопирован как '$unique_filename'"
         fi
-        ((files_count++))
     else
         echo "Ошибка при копировании: $file"
-        ((errors_count++))
     fi
 }
 
@@ -79,11 +74,5 @@ find "$INPUT_DIR" -type f | while read -r file; do
 done
 
 echo "Копирование завершено!"
-echo "Скопировано файлов: $files_count"
-
-if [ $errors_count -gt 0 ]; then
-    echo "Произошло ошибок: $errors_count"
-    exit 1
-fi
 
 exit 0
